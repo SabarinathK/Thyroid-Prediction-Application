@@ -30,7 +30,7 @@ def train_test(config_path):
     model=RandomForestClassifier(n_estimators=150,
                                criterion='gini',
                                max_depth=10)
-                               
+
     model.fit(train_label,train_class)
     
 ###################################################################################################################################
