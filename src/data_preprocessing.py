@@ -4,6 +4,7 @@ import yaml
 import os
 import argparse
 from sklearn.impute import KNNImputer
+
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
@@ -13,11 +14,8 @@ def preprocessing(config_path):
     config = read_params(config_path)
     train_data_path=config["split_data"]["train_path"]
     test_data_path=config["split_data"]["test_path"]
-    
-    train_class_path =config["processed"]["train_class"]
-    train_label_path =config["processed"]["train_label"]
-    test_class_path =config["processed"]["test_class"]
-    test_label_path =config["processed"]["test_label"]
+    train_processed_path =config["processed"]["train_path"]
+    test_processed_path =config["processed"]["test_path"]
     
 
     train_data=pd.read_csv(train_data_path)
@@ -46,12 +44,8 @@ def preprocessing(config_path):
     imputer=KNNImputer(n_neighbors=3, weights='uniform',missing_values=np.nan)
     new_array=imputer.fit_transform(train_data)
     train_impu_data=pd.DataFrame(data=np.round(new_array), columns=train_data.columns)
-
-    train_class=train_impu_data["Class"].copy()
-    train_label=train_impu_data.drop('Class',axis=1).copy()
-    train_class.to_csv(train_class_path,index=False)
-    train_label.to_csv(train_label_path,index=False)
-    
+    train_impu_data.to_csv(train_processed_path,index=False)
+   
 
 
 #################################################################################################################################
@@ -78,12 +72,8 @@ def preprocessing(config_path):
     imputer=KNNImputer(n_neighbors=3, weights='uniform',missing_values=np.nan)
     new_array=imputer.fit_transform(test_data)
     test_impu_data=pd.DataFrame(data=np.round(new_array), columns=test_data.columns)
-    
-    test_class=test_impu_data["Class"].copy()
-    test_label=test_impu_data.drop('Class',axis=1).copy()
-    test_class.to_csv(test_class_path,index=False)
-    test_label.to_csv(test_label_path,index=False)
-
+    test_impu_data.to_csv(test_processed_path ,index=False)
+ 
 
 if __name__=="__main__":
     args = argparse.ArgumentParser()
