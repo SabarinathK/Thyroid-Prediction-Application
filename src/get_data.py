@@ -23,9 +23,9 @@ def get_data(config_path):
     split_ratio=config["split_data"]["text_size"]
     random_state=config["base"]["random_state"]
     """
-    Method Name: Clean
-    Description: This method perform the first step of data preproceesing by dropping unnecesssary columns.
-    Output: A pandas DataFrame.
+    Method Name: get_data
+    Description: This method perform the reading and splitting of the data.
+    Output: A pandas DataFrame .csv.
     On Failure: Raise Exception
     """
     logger_object.log(file_object,'Entered the get_data')
