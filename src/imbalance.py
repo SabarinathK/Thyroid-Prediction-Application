@@ -18,7 +18,6 @@ def balance(config_path):
     train_processed_path =config["processed"]["train_path"]
     test_processed_path =config["processed"]["test_path"]
     
-
     train_data=pd.read_csv(train_processed_path)
     test_data=pd.read_csv(test_processed_path)
     
@@ -30,14 +29,11 @@ def balance(config_path):
     test_label.to_csv(test_label_path,index=False)
     test_class.to_csv(test_class_path,index=False)
 
-
     ros=RandomOverSampler(sampling_strategy='all')
     X_train_res,y_train_res=ros.fit_resample(train_label,train_class)
     
     X_train_res.to_csv(train_label_path,index=False)
     y_train_res.to_csv(train_class_path,index=False)
- 
-
 
 if __name__=="__main__":
     args = argparse.ArgumentParser()

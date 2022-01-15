@@ -20,6 +20,13 @@ balanced_data :
   train_label: datas/balanced_data/train_balanced_label.csv
   test_class: datas/balanced_data/test_class.csv
   test_label: datas/balanced_data/test_label.csv
+  
+mlflow_config:
+  artifacts_dir: artifacts
+  experiment_name: model_iteration1
+  run_name: random_forest
+  registered_model_name: random_forest_model
+  remote_server_uri: http://localhost:1234
 
 metrics:
   report : reports/reports.csv

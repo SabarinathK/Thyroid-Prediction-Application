@@ -26,21 +26,27 @@ def train_test(config_path):
     test_label=pd.read_csv(test_label_path)
 
 
+    mlflow_config = config["mlflow_config"]
+    remote_server_uri = mlflow_config["remote_server_uri"]
 
-    model=RandomForestClassifier(n_estimators=150,
-                               criterion='gini',
-                               max_depth=10)
+    mlflow.set_tracking_uri(remote_server_uri)
+    mlflow.set_experiment(mlflow_config["experiment_name"])
 
-    model.fit(train_label,train_class)
-    
-###################################################################################################################################
+    with mlflow.start_run(run_name=mlflow_config["run_name"]) as mlops_run:
+        model=RandomForestClassifier(n_estimators=150,
+                                criterion='gini',
+                                max_depth=10)
 
-    # METRICS___ Classification_report
+        model.fit(train_label,train_class)
+        
+    ###################################################################################################################################
 
-    y_pred=model.predict(test_label)
+        # METRICS___ Classification_report
 
-    cl_report = pd.DataFrame(classification_report(test_class, y_pred , output_dict=True)).transpose()
-    cl_report.to_csv(report_path, index= True)
+        y_pred=model.predict(test_label)
+
+        cl_report = pd.DataFrame(classification_report(test_class, y_pred , output_dict=True)).transpose()
+        cl_report.to_csv(report_path, index= True)
 
 if __name__=="__main__":
     args = argparse.ArgumentParser()
